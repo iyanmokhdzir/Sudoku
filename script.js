@@ -4,8 +4,11 @@ let arrGridIdTileId = [];
 window.onload = function () {
   setupGrid();
 
-  const submitButton = document.getElementById("submit");
-  submitButton.addEventListener("click", validateEmptyTiles);
+  const submitNewGameButton = document.getElementById("submit-newGame");
+  submitNewGameButton.addEventListener("click", validateEmptyTiles);
+
+  const resetButton = document.getElementById("reset");
+  resetButton.addEventListener("click", resetTiles);
 };
 
 function setupGrid() {
@@ -18,8 +21,10 @@ function setupGrid() {
       tile.type = "text";
       tile.maxLength = 1;
       tile.min = 1;
-      tile.max = 9;
+      tile.max = 9;            
+      tile.autocomplete = "off";
       document.getElementById("board-wrapper").appendChild(tile);
+      tile.setAttribute("data-isprefilled", false);
       tileIds.push(tile.id);
 
       tile.addEventListener("input", function (e) {
@@ -28,7 +33,6 @@ function setupGrid() {
       });
     }
   }
-
   setGridIdOnTiles();
 
   for (let i = 0; i < 30; i++) {
@@ -46,7 +50,7 @@ function setGridIdOnTiles() {
         for (let k = j; k <= j + 2; k++) {
           let tileId = tileIds[k];
           const tile = document.getElementById(`${tileId}`);
-          tile.setAttribute("gridid", a);
+          tile.setAttribute("data-gridid", a);
           arrGridIdTileId.push([a, tileId]);
           // console.log(`Index: ${k} - Tile ID: ${tileId} - Grid ID: ${a}`)
         }
@@ -71,13 +75,13 @@ function setRandomNumOnTiles() {
   const tileRow = tileIdSplit[0];
   const tileCol = tileIdSplit[1];
   const tile = document.getElementById(tileId);
-  const gridId = tile.getAttribute("gridid");
+  const gridId = tile.getAttribute("data-gridid");
   const randomNum = generateRandomNumber();
   const gridValues = [],
     colValues = [],
     rowValues = [];
 
-  const inputs = document.querySelectorAll(`input[gridid="${gridId}"]`);
+  const inputs = document.querySelectorAll(`input[data-gridid="${gridId}"]`);
   inputs.forEach((input) => {
     gridValues.push(input.value);
   });
@@ -108,7 +112,8 @@ function setRandomNumOnTiles() {
   if (tile.value == "" && !(gridValues.includes(randomNum.toString())) && !(colValues.includes(randomNum.toString())) && !(rowValues.includes(randomNum.toString()))) {
     tile.value = randomNum;
     tile.readOnly = true;
-    tile.style.color = "rgb(207, 102, 23)";
+    tile.style.color = "rgb(31, 20, 92)";
+    tile.setAttribute("data-isprefilled", true);
   } else {
     setRandomNumOnTiles();
   }
@@ -122,19 +127,25 @@ function generateRandomTileIndex() {
   return Math.floor(Math.random() * tileIds.length);
 }
 
+function resetTiles() {
+  const inputs = document.querySelectorAll(`input[data-isprefilled="false"]`);
+
+  inputs.forEach((i) => {
+    i.value = "";
+  });
+}
+
 function validateEmptyTiles() {
-  const tiles = document.querySelectorAll("input");
-  let arrEmptyOrNot = [];
+  const inputs = document.querySelectorAll(`input[type="text"]`);
+  let inputValues = []
+  
+  inputs.forEach((i) => {
+    inputValues.push(i.value);
+  });
 
-  for (let i = 0; i < tiles.length; i++) {
-    if (tiles[i].value == "") {
-      arrEmptyOrNot.push(false);
-      alert("Please complete the game before submitting");
-      break;
-    }
-  }
-
-  if (!arrEmptyOrNot.includes(false)) {
+  if (inputValues.includes("")) {
+    alert("Please complete the game before submitting");
+  } else {
     validateAnswer();
   }
 }
