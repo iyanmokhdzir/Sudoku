@@ -1,5 +1,5 @@
 let tileIds = [];
-let gridIdTileIds = [];
+let solution = [];
 
 window.onload = function () {
   setupGrid();
@@ -45,7 +45,6 @@ function setGridIdOnTiles() {
           let tileId = tileIds[k];
           const tile = document.getElementById(`${tileId}`);
           tile.setAttribute("data-gridid", a);
-          gridIdTileIds.push([a, tileId]);
         }
       }
       a++;
@@ -56,6 +55,7 @@ function setGridIdOnTiles() {
 function generateSolution() {
   const board = Array.from({ length: 9 }, () => Array(9).fill(0));
   fillBoard(board);
+  solution = board.map((row) => [...row]);
   renderBoard(board);
 }
 
@@ -115,16 +115,37 @@ function renderBoard(board) {
       tile.value = board[row][col];
       tile.readOnly = true;
       tile.style.color = "rgb(31, 20, 92)";
+      tile.setAttribute("data-isprefilled", true);
     }
   }
+
+  hideNumOnTiles();
 }
 
 function hideNumOnTiles() {
+  let randomIndex = Math.floor(Math.random() * tileIds.length);
+  let tileId = tileIds[randomIndex];
+  const tile = document.getElementById(`${tileId}`);
 
+  console.log(`tile id to hide its value: ${tileId}`);
+
+  if (tile.value !== "") {
+    tile.value = "";
+    tile.readOnly = false;
+    tile.style.color = "rgb(204, 37, 171)";
+    tile.setAttribute("data-isprefilled", false);
+  }
 }
 
 function resetTiles() {
+  let tile = document.querySelectorAll(`input[data-isprefilled="false"]`);
 
+  tile.forEach((input) => {
+    if (input.value !== "") {
+      input.value = "";
+      console.log("board is reset");
+    }
+  });
 }
 
 function validateEmptyTiles() {
@@ -143,5 +164,14 @@ function validateEmptyTiles() {
 }
 
 function validateAnswer() {
-  console.log("tiles are not empty");
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      const tile = document.getElementById(`${row}${col}`);
+      if (tile.value != solution[row][col]) {
+        alert("Incorrect solution. Please try again.");
+        return;
+      }
+    }
+  }
+  alert("Congratulations! You have solved the Sudoku.");
 }
