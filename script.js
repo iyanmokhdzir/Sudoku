@@ -123,17 +123,25 @@ function renderBoard(board) {
 }
 
 function hideNumOnTiles() {
-  let randomIndex = Math.floor(Math.random() * tileIds.length);
-  let tileId = tileIds[randomIndex];
-  const tile = document.getElementById(`${tileId}`);
+  const randomDifficultyLevel = Math.floor(Math.random() * 60) + 1;
+  let count = 0;
+  console.log(`num of tile values to be hidden: ${randomDifficultyLevel}`);
 
-  console.log(`tile id to hide its value: ${tileId}`);
+  while (count < randomDifficultyLevel) {
+    const randomIndex = Math.floor(Math.random() * tileIds.length);
+    const tileId = tileIds[randomIndex];
+    const tile = document.getElementById(`${tileId}`);
 
-  if (tile.value !== "") {
-    tile.value = "";
-    tile.readOnly = false;
-    tile.style.color = "rgb(204, 37, 171)";
-    tile.setAttribute("data-isprefilled", false);
+    console.log(`tile id with hidden value: ${tileId}`);
+
+    if (tile.value !== "") {
+      tile.value = "";
+      tile.readOnly = false;
+      tile.style.color = "rgb(204, 37, 171)";
+      tile.setAttribute("data-isprefilled", false);
+    }
+
+    count++;
   }
 }
 
