@@ -18,6 +18,7 @@ body {
     height: 100svh;
     background-color: var(--canvas-bg-color);
     overflow: hidden;
+    font-family: 'Poppins', sans-serif;
 }
 
 h1 {
@@ -45,7 +46,6 @@ h1 {
     font-size: 2.5em;
     text-align: center;
     border: none;
-    color: var(--tile-text-color);
 }
 
 [data-gridid="0"], [data-gridid="2"], [data-gridid="4"], [data-gridid="6"], [data-gridid="8"] {
