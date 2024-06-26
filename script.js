@@ -1,5 +1,5 @@
 let tileIds = [];
-let arrGridIdTileId = [];
+let gridIdTileIds = [];
 
 window.onload = function () {
   setupGrid();
@@ -16,15 +16,14 @@ function setupGrid() {
     for (let j = 0; j < 9; j++) {
       const tile = document.createElement("input");
       tile.id = `${i}${j}`;
-      tile.row = `${i}`;
-      tile.col = `${j}`;
+      tile.setAttribute("data-row", i);
+      tile.setAttribute("data-col", j);
       tile.type = "text";
       tile.maxLength = 1;
       tile.min = 1;
-      tile.max = 9;            
+      tile.max = 9;
       tile.autocomplete = "off";
       document.getElementById("board-wrapper").appendChild(tile);
-      tile.setAttribute("data-isprefilled", false);
       tileIds.push(tile.id);
 
       tile.addEventListener("input", function (e) {
@@ -34,13 +33,8 @@ function setupGrid() {
     }
   }
   setGridIdOnTiles();
-
-  for (let i = 0; i < 30; i++) {
-    setRandomNumOnTiles();
-  }
+  generateSolution();
 }
-
-//console.log(tileIds);
 
 function setGridIdOnTiles() {
   let a = 0;
@@ -51,94 +45,92 @@ function setGridIdOnTiles() {
           let tileId = tileIds[k];
           const tile = document.getElementById(`${tileId}`);
           tile.setAttribute("data-gridid", a);
-          arrGridIdTileId.push([a, tileId]);
-          // console.log(`Index: ${k} - Tile ID: ${tileId} - Grid ID: ${a}`)
+          gridIdTileIds.push([a, tileId]);
         }
       }
       a++;
     }
   }
-
-  /*
-  let test = document.getElementById("04");
-  let test2 = test.getAttribute("gridid"); 
-  console.log(test2); //should return 1
-  */
 }
 
-console.log(arrGridIdTileId);
+function generateSolution() {
+  const board = Array.from({ length: 9 }, () => Array(9).fill(0));
+  fillBoard(board);
+  renderBoard(board);
+}
 
-function setRandomNumOnTiles() {
-  const randomTileIndex = generateRandomTileIndex();
-  const tileId = tileIds[randomTileIndex];
-  const tileIdSplit = tileId.split("");
-  const tileRow = tileIdSplit[0];
-  const tileCol = tileIdSplit[1];
-  const tile = document.getElementById(tileId);
-  const gridId = tile.getAttribute("data-gridid");
-  const randomNum = generateRandomNumber();
-  const gridValues = [],
-    colValues = [],
-    rowValues = [];
+function fillBoard(board) {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (board[row][col] === 0) {
+        const numbers = shuffle(Array.from({ length: 9 }, (_, i) => i + 1));
+        for (let num of numbers) {
+          if (isValid(board, row, col, num)) {
+            board[row][col] = num;
+            if (fillBoard(board)) {
+              return true;
+            }
+            board[row][col] = 0;
+          }
+        }
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
-  const inputs = document.querySelectorAll(`input[data-gridid="${gridId}"]`);
-  inputs.forEach((input) => {
-    gridValues.push(input.value);
-  });
-
+function isValid(board, row, col, num) {
   for (let i = 0; i < 9; i++) {
-    const tileCheck = document.getElementById(`${tileRow}${i}`);
-    colValues.push(tileCheck.value);
+    if (board[row][i] === num || board[i][col] === num) {
+      return false;
+    }
   }
 
-  for (let i = 0; i < 9; i++) {
-    const tileCheck = document.getElementById(`${i}${tileCol}`);
-    rowValues.push(tileCheck.value);
+  const startRow = Math.floor(row / 3) * 3;
+  const startCol = Math.floor(col / 3) * 3;
+  for (let i = startRow; i < startRow + 3; i++) {
+    for (let j = startCol; j < startCol + 3; j++) {
+      if (board[i][j] === num) {
+        return false;
+      }
+    }
   }
 
-  console.log(`tile Id: ${tileId}`);
-  console.log(`random num: ${randomNum}`);
-  console.log(`grid Id: ${gridId}`);
-  console.log(`row: ${tileRow}`);
-  console.log(`col: ${tileCol}`);
-  console.log(gridValues);
-  console.log(rowValues);
-  console.log(colValues);
-  console.log(`is tile empty ?: ${(tile.value == "")}`);
-  console.log(`random num included in grid ?: ${gridValues.includes(randomNum.toString())}`);
-  console.log(`random num included in col ?: ${colValues.includes(randomNum.toString())}`);
-  console.log(`random num included in row ?: ${rowValues.includes(randomNum.toString())}`);
+  return true;
+}
 
-  if (tile.value == "" && !(gridValues.includes(randomNum.toString())) && !(colValues.includes(randomNum.toString())) && !(rowValues.includes(randomNum.toString()))) {
-    tile.value = randomNum;
-    tile.readOnly = true;
-    tile.style.color = "rgb(31, 20, 92)";
-    tile.setAttribute("data-isprefilled", true);
-  } else {
-    setRandomNumOnTiles();
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+function renderBoard(board) {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      const tile = document.getElementById(`${row}${col}`);
+      tile.value = board[row][col];
+      tile.readOnly = true;
+      tile.style.color = "rgb(31, 20, 92)";
+    }
   }
 }
 
-function generateRandomNumber() {
-  return Math.floor(Math.random() * 9) + 1;
-}
+function hideNumOnTiles() {
 
-function generateRandomTileIndex() {
-  return Math.floor(Math.random() * tileIds.length);
 }
 
 function resetTiles() {
-  const inputs = document.querySelectorAll(`input[data-isprefilled="false"]`);
 
-  inputs.forEach((i) => {
-    i.value = "";
-  });
 }
 
 function validateEmptyTiles() {
   const inputs = document.querySelectorAll(`input[type="text"]`);
-  let inputValues = []
-  
+  let inputValues = [];
+
   inputs.forEach((i) => {
     inputValues.push(i.value);
   });
