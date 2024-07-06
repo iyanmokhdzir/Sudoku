@@ -4,7 +4,7 @@ let solution = [];
 window.onload = function () {
   const startGameButton = document.getElementById("startGame");
   startGameButton.addEventListener("click", startGame);
-}
+};
 
 function startGame() {
   const popup = document.getElementById("popup");
@@ -129,12 +129,35 @@ function renderBoard(board) {
       tile.setAttribute("data-isprefilled", true);
     }
   }
-
+  getDifficultyLevel();
   hideNumOnTiles();
 }
 
+function getDifficultyLevel() {
+  const radioButton = document.getElementsByName("difficulty");
+  let difficultyLevel = "";
+
+  for (i = 0; i < radioButton.length; i++) {
+    if (radioButton[i].checked) difficultyLevel = radioButton[i].value;
+  }
+
+  return difficultyLevel;
+}
+
 function hideNumOnTiles() {
-  const randomDifficultyLevel = Math.floor(Math.random() * 60) + 1;
+  const difficultyLevel = getDifficultyLevel();
+  let randomDifficultyLevel;
+
+  console.log(`the difficulty level is: ${difficultyLevel}`);
+
+  if (difficultyLevel == 1) {
+    randomDifficultyLevel = Math.floor(Math.random() * 16) + 5;
+  } else if (difficultyLevel == 2) {
+    randomDifficultyLevel = Math.floor(Math.random() * 20) + 21;
+  } else {
+    randomDifficultyLevel = Math.floor(Math.random() * 30) + 41;
+  }
+
   let count = 0;
   console.log(`num of tile values to be hidden: ${randomDifficultyLevel}`);
 
@@ -143,7 +166,7 @@ function hideNumOnTiles() {
     const tileId = tileIds[randomIndex];
     const tile = document.getElementById(`${tileId}`);
 
-    console.log(`tile id with hidden value: ${tileId}`);
+    //console.log(`tile id with hidden value: ${tileId}`);
 
     if (tile.value !== "") {
       tile.value = "";
