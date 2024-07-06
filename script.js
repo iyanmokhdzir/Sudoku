@@ -2,6 +2,17 @@ let tileIds = [];
 let solution = [];
 
 window.onload = function () {
+  const startGameButton = document.getElementById("startGame");
+  startGameButton.addEventListener("click", startGame);
+}
+
+function startGame() {
+  const popup = document.getElementById("popup");
+  popup.style.display = "none";
+
+  const mainWrapper = document.getElementById("main-wrapper");
+  mainWrapper.style.display = "block";
+
   setupGrid();
 
   const submitNewGameButton = document.getElementById("submit-newGame");
@@ -9,7 +20,7 @@ window.onload = function () {
 
   const resetButton = document.getElementById("reset");
   resetButton.addEventListener("click", resetTiles);
-};
+}
 
 function setupGrid() {
   for (let i = 0; i < 9; i++) {
