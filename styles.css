@@ -1,14 +1,18 @@
 :root {
     --board-height: calc(70vmin);
     --board-width: var(--board-height);
-    --tile-height: calc((var(--board-height) -  5%)/9);
-    --tile-width: calc((var(--board-width) -  5%)/9);
+    --tile-height: calc((var(--board-height) - 5%)/9);
+    --tile-width: calc((var(--board-width) - 5%)/9);
     --main-color: rgb(31, 20, 92);
     --tile-text-color: rgb(204, 37, 171);
     --tile-odd-bg-color: rgb(248, 245, 252);
     --tile-even-bg-color: rgb(216, 209, 222);
     --canvas-bg-color: rgb(248, 240, 255);
     --box-shadow: 2px 0px 8px 1px rgba(0, 0, 0, 0.3);
+    --popup-width: calc(var(--board-width) - 120px);
+    --popup-height: calc(var(--board-height)/2);
+    --border-radius: 10px;
+    --buttons-popup-tfont-szie:
 }
 
 html,
@@ -19,6 +23,38 @@ body {
     background-color: var(--canvas-bg-color);
     overflow: hidden;
     font-family: 'Poppins', sans-serif;
+}
+
+#popup {
+    width: var(--popup-width);
+    height: var(--popup-height);
+    min-width: var(--min-popup-width);
+    min-height: var(--min-popup-height);
+    background-color: var(--canvas-bg-color);
+    position: fixed;
+    left: calc(50% - (var(--popup-width)/2));
+    top: calc(50% - (var(--popup-height)/2));
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-size: 2.8vmin;
+    z-index: 999;
+    color: var(--main-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#popup > * {
+    margin: 20px auto;
+}
+
+input[type="radio"] {
+    vertical-align: middle;
+}
+
+#main-wrapper {
+    display: none;
 }
 
 h1 {
@@ -38,7 +74,7 @@ h1 {
     box-shadow: var(--box-shadow);
 }
 
-#board-wrapper > input {
+#board-wrapper>input {
     height: var(--tile-height);
     width: var(--tile-width);
     margin: auto auto;
@@ -48,11 +84,18 @@ h1 {
     border: none;
 }
 
-[data-gridid="0"], [data-gridid="2"], [data-gridid="4"], [data-gridid="6"], [data-gridid="8"] {
+[data-gridid="0"],
+[data-gridid="2"],
+[data-gridid="4"],
+[data-gridid="6"],
+[data-gridid="8"] {
     background-color: var(--tile-even-bg-color)
 }
 
-[data-gridid="1"], [data-gridid="3"], [data-gridid="5"], [data-gridid="7"] {
+[data-gridid="1"],
+[data-gridid="3"],
+[data-gridid="5"],
+[data-gridid="7"] {
     background-color: var(--tile-odd-bg-color);
 }
 
@@ -64,13 +107,15 @@ h1 {
     padding: 0;
 }
 
-#submit-newGame, #reset {
+#submit-newGame,
+#reset,
+#startGame {
     margin: 50px auto;
     display: block;
     height: calc(var(--tile-height) - 20px);
     width: calc(var(--tile-width) * 2);
     border-radius: 20px;
-    font-size: 20px;
+    font-size: 2vmin;
     background-color: var(--main-color);
     color: var(--canvas-bg-color);
     text-align: center;
@@ -80,7 +125,9 @@ h1 {
     box-shadow: var(--box-shadow);
 }
 
-#submit-newGame:hover, #reset:hover {
+#submit-newGame:hover,
+#reset:hover,
+#startGame:hover {
     cursor: pointer;
     background-color: var(--tile-text-color);
 }
