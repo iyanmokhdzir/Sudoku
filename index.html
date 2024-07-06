@@ -15,12 +15,23 @@
 </head>
 
 <body>
-    <h1>SUDOKU</h1>
-    <div id="board-wrapper">
+    <div id="popup">
+        <div class="text-difficulty">Select your difficulty:</div>
+        <form id="difficulty-level">
+            <input type="radio" id="easy" name="difficulty" value="1" checked /><label for="easy">Easy</label>
+            <input type="radio" id="medium" name="difficulty" value="2" /><label for="medium">Medium</label>
+            <input type="radio" id="hard" name="difficulty" value="3" /><label for="hard">Hard</label>
+        </form>
+        <div id="startGame">Start Game</div>
     </div>
-    <div class="buttons">
-        <div id="reset">Reset</div>
-        <div id="submit-newGame">Submit</div>
+    <div id="main-wrapper">
+        <h1>SUDOKU</h1>
+        <div id="board-wrapper">
+        </div>
+        <div class="buttons">
+            <div id="reset">Reset</div>
+            <div id="submit-newGame">Submit</div>
+        </div>
     </div>
 </body>
 
