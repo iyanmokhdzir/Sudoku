@@ -1,5 +1,8 @@
 let tileIds = [];
 let solution = [];
+let soundWin = new Audio("./sound-success.mp3");
+let soundAlert = new Audio("./sound-alert.wav");
+let soundGameStart = new Audio("./sound-gamestart.mp3");
 
 window.onload = initializeGame;
 
@@ -48,6 +51,10 @@ function setupGrid() {
       });
     }
   }
+
+  soundGameStart.play();
+  soundGameStart.loop = false;
+
   setGridIdOnTiles();
   generateSolution();
 }
@@ -191,6 +198,8 @@ function resetTiles() {
     if (input.value !== "") {
       input.value = "";
       console.log("board is reset");
+      soundGameStart.play();
+      soundGameStart.loop = false;
     }
   });
 }
@@ -204,6 +213,9 @@ function validateEmptyTiles() {
   });
 
   if (inputValues.includes("")) {
+    soundAlert.play();
+    soundAlert.loop = false;
+
     const endPopup = document.getElementById("endPopup");
     endPopup.style.display = "flex";
 
@@ -231,6 +243,9 @@ function validateAnswer() {
         const endMessage = document.getElementById("endMessage");
         endMessage.innerHTML = "Please re-check your solution.";
 
+        soundAlert.play();
+        soundAlert.loop = false;
+
         const newGame = document.getElementById("close-newGame");
         newGame.innerHTML = "Close";
         newGame.addEventListener("click", function () {
@@ -241,6 +256,9 @@ function validateAnswer() {
       }
     }
   }
+  soundWin.play();
+  soundWin.loop = false;
+
   const endPopup = document.getElementById("endPopup");
   endPopup.style.display = "flex";
 
