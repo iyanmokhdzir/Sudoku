@@ -1,14 +1,19 @@
 let tileIds = [];
 let solution = [];
 
-window.onload = function () {
+window.onload = initializeGame;
+
+function initializeGame() {
+  const endPopup = document.getElementById("endPopup");
+  endPopup.style.display = "none";
+
   const startGameButton = document.getElementById("startGame");
   startGameButton.addEventListener("click", startGame);
-};
+}
 
 function startGame() {
-  const popup = document.getElementById("popup");
-  popup.style.display = "none";
+  const startPopup = document.getElementById("startPopup");
+  startPopup.style.display = "none";
 
   const mainWrapper = document.getElementById("main-wrapper");
   mainWrapper.style.display = "block";
@@ -151,7 +156,7 @@ function hideNumOnTiles() {
   console.log(`the difficulty level is: ${difficultyLevel}`);
 
   if (difficultyLevel == 1) {
-    randomDifficultyLevel = Math.floor(Math.random() * 16) + 5;
+    randomDifficultyLevel = Math.floor(Math.random() * 0) + 5;
   } else if (difficultyLevel == 2) {
     randomDifficultyLevel = Math.floor(Math.random() * 20) + 21;
   } else {
@@ -199,7 +204,17 @@ function validateEmptyTiles() {
   });
 
   if (inputValues.includes("")) {
-    alert("Please complete the game before submitting");
+    const endPopup = document.getElementById("endPopup");
+    endPopup.style.display = "flex";
+
+    const endMessage = document.getElementById("endMessage");
+    endMessage.innerHTML = "Please complete the puzzle before submitting.";
+
+    const newGame = document.getElementById("close-newGame");
+    newGame.innerHTML = "Close";
+    newGame.addEventListener("click", function () {
+      endPopup.style.display = "none";
+    });
   } else {
     validateAnswer();
   }
@@ -210,10 +225,31 @@ function validateAnswer() {
     for (let col = 0; col < 9; col++) {
       const tile = document.getElementById(`${row}${col}`);
       if (tile.value != solution[row][col]) {
-        alert("Incorrect solution. Please try again.");
+        const endPopup = document.getElementById("endPopup");
+        endPopup.style.display = "flex";
+
+        const endMessage = document.getElementById("endMessage");
+        endMessage.innerHTML = "Please re-check your solution.";
+
+        const newGame = document.getElementById("close-newGame");
+        newGame.innerHTML = "Close";
+        newGame.addEventListener("click", function () {
+          endPopup.style.display = "none";
+        });
+
         return;
       }
     }
   }
-  alert("Congratulations! You have solved the Sudoku.");
+  const endPopup = document.getElementById("endPopup");
+  endPopup.style.display = "flex";
+
+  const endMessage = document.getElementById("endMessage");
+  endMessage.innerHTML = "Congratulations!<br><br>You solved the puzzle!";
+
+  const newGame = document.getElementById("close-newGame");
+  newGame.innerHTML = "New Game";
+  newGame.addEventListener("click", function () {
+    location.reload();
+  });
 }
