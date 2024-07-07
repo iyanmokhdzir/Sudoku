@@ -163,11 +163,11 @@ function hideNumOnTiles() {
   console.log(`the difficulty level is: ${difficultyLevel}`);
 
   if (difficultyLevel == 1) {
-    randomDifficultyLevel = Math.floor(Math.random() * 0) + 5;
+    randomDifficultyLevel = Math.floor(Math.random() * 21) + 5; //for easy, 5 to 25 tiles will be hidden ((upperLimit=25)-(startingLimit=5)+1, startingLimit=5)
   } else if (difficultyLevel == 2) {
-    randomDifficultyLevel = Math.floor(Math.random() * 20) + 21;
+    randomDifficultyLevel = Math.floor(Math.random() * 25) + 26; //for medium, 26 to 50 tiles will be hidden ((upperLimit=50)-(startingLimit=26)+1, startingLimit=26)
   } else {
-    randomDifficultyLevel = Math.floor(Math.random() * 30) + 41;
+    randomDifficultyLevel = Math.floor(Math.random() * 28) + 51; //for hard, 51 to 78 tiles will be hidden ((upperLimit=78)-(startingLimit=51)+1, startingLimit=51)
   }
 
   let count = 0;
