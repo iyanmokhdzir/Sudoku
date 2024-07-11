@@ -114,7 +114,7 @@ h1 {
 #submit-newGame,
 #reset,
 #startGame,
-#close-newGame {
+#close-newGame, #hint {
     display: block;
     height: calc(var(--tile-height) - 20px);
     width: calc(var(--tile-width) * 2);
@@ -130,14 +130,14 @@ h1 {
 }
 
 #submit-newGame,
-#reset {
+#reset, #hint {
     margin: 50px auto;
 }
 
 #submit-newGame:hover,
 #reset:hover,
 #startGame:hover,
-#close-newGame:hover {
+#close-newGame:hover, #hint:hover {
     cursor: pointer;
     background-color: var(--tile-text-color);
 }
