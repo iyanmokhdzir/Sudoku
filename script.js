@@ -164,30 +164,32 @@ function hideNumOnTiles() {
 
   if (difficultyLevel == 1) {
     randomDifficultyLevel = Math.floor(Math.random() * 21) + 5; //for easy, 5 to 25 tiles will be hidden ((upperLimit=25)-(startingLimit=5)+1, startingLimit=5)
-  } else if (difficultyLevel == 2) {
+  } 
+  if (difficultyLevel == 2) {
     randomDifficultyLevel = Math.floor(Math.random() * 25) + 26; //for medium, 26 to 50 tiles will be hidden ((upperLimit=50)-(startingLimit=26)+1, startingLimit=26)
-  } else {
+  } 
+  if (difficultyLevel == 3) {
     randomDifficultyLevel = Math.floor(Math.random() * 28) + 51; //for hard, 51 to 78 tiles will be hidden ((upperLimit=78)-(startingLimit=51)+1, startingLimit=51)
   }
 
-  let count = 0;
+  //let count = 0;
   console.log(`num of tile values to be hidden: ${randomDifficultyLevel}`);
 
-  while (count < randomDifficultyLevel) {
-    const randomIndex = Math.floor(Math.random() * tileIds.length);
+  for (let i = 0; i < randomDifficultyLevel; i++) {
+    let randomIndex = Math.floor(Math.random() * tileIds.length);
     const tileId = tileIds[randomIndex];
     const tile = document.getElementById(`${tileId}`);
 
     //console.log(`tile id with hidden value: ${tileId}`);
 
-    if (tile.value !== "") {
+    if (tile.value != "") {
       tile.value = "";
       tile.readOnly = false;
       tile.style.color = "rgb(204, 37, 171)";
       tile.setAttribute("data-isprefilled", false);
+    } else {
+      i--;
     }
-
-    count++;
   }
 }
 
