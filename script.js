@@ -1,8 +1,10 @@
 let tileIds = [];
 let solution = [];
+let hiddenValues = [];
 let soundWin = new Audio("./sound-success.mp3");
 let soundAlert = new Audio("./sound-alert.wav");
 let soundGameStart = new Audio("./sound-gamestart.mp3");
+let hintCount = 5;
 
 window.onload = initializeGame;
 
@@ -28,6 +30,29 @@ function startGame() {
 
   const resetButton = document.getElementById("reset");
   resetButton.addEventListener("click", resetTiles);
+
+  const hintButton = document.getElementById("hint");
+  hintButton.addEventListener("click", function () {
+    hintCount--;
+    if (hintCount > -1) {
+      showHint(hintCount);
+    } else {
+      const endPopup = document.getElementById("endPopup");
+      endPopup.style.display = "flex";
+
+      const endMessage = document.getElementById("endMessage");
+      endMessage.innerHTML = "You have used up all your hints.";
+
+      soundAlert.play();
+      soundAlert.loop = false;
+
+      const newGame = document.getElementById("close-newGame");
+      newGame.innerHTML = "Close";
+      newGame.addEventListener("click", function () {
+        endPopup.style.display = "none";
+      });
+    }
+  });
 }
 
 function setupGrid() {
@@ -163,13 +188,13 @@ function hideNumOnTiles() {
   console.log(`the difficulty level is: ${difficultyLevel}`);
 
   if (difficultyLevel == 1) {
-    randomDifficultyLevel = Math.floor(Math.random() * 21) + 5; //for easy, 5 to 25 tiles will be hidden ((upperLimit=25)-(startingLimit=5)+1, startingLimit=5)
-  } 
+    randomDifficultyLevel = Math.floor(Math.random() * 16) + 5; //for easy, 5 to 20 tiles will be hidden ((upperLimit=20)-(startingLimit=5)+1, startingLimit=5)
+  }
   if (difficultyLevel == 2) {
-    randomDifficultyLevel = Math.floor(Math.random() * 25) + 26; //for medium, 26 to 50 tiles will be hidden ((upperLimit=50)-(startingLimit=26)+1, startingLimit=26)
-  } 
+    randomDifficultyLevel = Math.floor(Math.random() * 20) + 21; //for medium, 21 to 40 tiles will be hidden ((upperLimit=40)-(startingLimit=21)+1, startingLimit=21)
+  }
   if (difficultyLevel == 3) {
-    randomDifficultyLevel = Math.floor(Math.random() * 28) + 51; //for hard, 51 to 78 tiles will be hidden ((upperLimit=78)-(startingLimit=51)+1, startingLimit=51)
+    randomDifficultyLevel = Math.floor(Math.random() * 20) + 41; //for hard, 41 to 60 tiles will be hidden ((upperLimit=60)-(startingLimit=41)+1, startingLimit=41)
   }
 
   //let count = 0;
@@ -183,6 +208,7 @@ function hideNumOnTiles() {
     //console.log(`tile id with hidden value: ${tileId}`);
 
     if (tile.value != "") {
+      hiddenValues.push([tile.id, tile.value]);
       tile.value = "";
       tile.readOnly = false;
       tile.style.color = "rgb(204, 37, 171)";
@@ -204,6 +230,24 @@ function resetTiles() {
       soundGameStart.loop = false;
     }
   });
+}
+
+function showHint(hintCount) {
+  let randomIndex = Math.floor(Math.random() * hiddenValues.length);
+  const tileId = hiddenValues[randomIndex][0];
+  const tile = document.getElementById(`${tileId}`);
+
+  const hintCounterText = document.getElementById("hintCounter");
+  hintCounterText.innerText = hintCount;
+
+  //console.log(`show hint for index: ${randomIndex} with tileId: ${tileId}`);
+
+  tile.value = hiddenValues[randomIndex][1];
+  tile.readOnly = true;
+  tile.style.color = "rgb(204, 37, 40)";
+  tile.setAttribute("data-isprefilled", true);
+  hiddenValues.splice(randomIndex, 1);
+  //console.group(hiddenValues);
 }
 
 function validateEmptyTiles() {
