@@ -1,4 +1,4 @@
-Date: 7th July 2024
+Date: 12th July 2024
 
 This is a sudoku game done using HTML, CSS and JS.
 
@@ -16,13 +16,15 @@ If the solutions match (i.e. the user-inputted values are correct), user will be
 
 Throughout the game, user will be able to click on the Reset button which will clear the user-inputted fields.
 
+There is a hint button to help the user but limited to 5 hints only.
+
 There are currently no limit to the number of tries.
 
 Sound effects are added for fun.
 
 ![Screenshot 2024-07-07 200210](https://github.com/iyanmokhdzir/15-Sudoku/assets/44695501/c30ed66b-b113-4b6c-912b-cf0718fda40b)
 
-![Screenshot 2024-07-07 200226](https://github.com/iyanmokhdzir/15-Sudoku/assets/44695501/8f004682-0e98-4a9e-8c9a-398e5d4407f5)
+<img width="1919" alt="image" src="https://github.com/user-attachments/assets/079a0918-eca4-4fee-9bb7-1f90d67b22f5">
 
 ![Screenshot 2024-07-07 200237](https://github.com/iyanmokhdzir/15-Sudoku/assets/44695501/516e7b0a-90de-41f8-9c3c-994e9d75f3ab)
 
