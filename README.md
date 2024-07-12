@@ -26,8 +26,10 @@ Sound effects are added for fun.
 
 <img width="1919" alt="image" src="https://github.com/user-attachments/assets/079a0918-eca4-4fee-9bb7-1f90d67b22f5">
 
-![Screenshot 2024-07-07 200237](https://github.com/iyanmokhdzir/15-Sudoku/assets/44695501/516e7b0a-90de-41f8-9c3c-994e9d75f3ab)
+<img width="1919" alt="image" src="https://github.com/user-attachments/assets/8f2633df-1d8c-415f-9807-1e44d4deed80">
 
-![Screenshot 2024-07-07 200332](https://github.com/iyanmokhdzir/15-Sudoku/assets/44695501/3eb2a7fa-0cd7-46d3-a8fd-945b27f307ba)
+<img width="1919" alt="image" src="https://github.com/user-attachments/assets/182d16ad-2e6d-40a7-89a4-ee6a76e0c0be">
 
-![Screenshot 2024-07-07 200349](https://github.com/iyanmokhdzir/15-Sudoku/assets/44695501/f5ed4332-d48a-4885-8886-b7a6d81f9403)
+<img width="1919" alt="image" src="https://github.com/user-attachments/assets/7e938a6d-5944-4fb9-9d27-0942e2b461a4">
+
+<img width="1919" alt="image" src="https://github.com/user-attachments/assets/8a6c1690-e7df-4460-b51f-478bd2786b7b">
